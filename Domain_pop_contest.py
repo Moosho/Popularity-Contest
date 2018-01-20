@@ -9,7 +9,7 @@ from urllib import parse
 class Website():
     """Menages getting a domain, checks if it's working and gets it's HTML."""
 
-    def __init__(self, length, firstLevelDomain="com", url=False):
+    def __init__(self, length, firstLevelDomain="com", tries=50, domain=None):
         self.header_dict = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
             "Accept-Encoding": "gzip, deflate",
@@ -18,33 +18,37 @@ class Website():
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"
         }
         self.length = length
-        self.firstLevelDomain = str(firstLevelDomain)
-        self.url = url
-        self.domain = ""
+        self.firstLevelDomain = firstLevelDomain
+        self.tries = tries
+        self.domain = domain
         self.html = ""
         self.extLinksList = []
 
         # Logic
-        for x in range(50):
-            dom = self.rand_domain()
-            self.domain = dom
-            resp = self.request_domain()
-            if resp is not False:
+        if self.domain is None:
+            for x in range(self.tries):
+                dom = self.rand_domain()
                 self.domain = dom
+
+                resp = self.request_domain()
                 self.html = str(resp)
-                # print("Domain:\n{}\nHtml:\n{}\n".format(self.domain, self.html))
-                html_raw = self.html
-                ext = self.extLinks(html_raw)
-                print(ext)
-                print("qqqqqqqqqqqqqq")
-                break
+                if resp is False:
+                    continue
+        else:
+            self.html = self.request_domain(self.domain)
+        # print("Domain:\n{}\nHtml:\n{}\n".format(self.domain, self.html))
+        html_raw = self.html
+        ext = self.extLinks(html_raw)
+        print("HTML:\n{}\n\n\nqqqqqqqqqqqqqq {}".format(self.html, ext))
+        print(ext)
+        print(self.domain)
 
     def rand_domain(self):
         name = ""
         for n in range(int(self.length)):
             randLetter = random.choice(string.ascii_lowercase)
             name = "{}{}".format(name, randLetter)
-        return "http://{}.{}".format(name, self.firstLevelDomain)
+        return "http://www.{}.{}".format(name, self.firstLevelDomain)
 
     def request_domain(self, url=None):
         if url is None:
@@ -69,11 +73,12 @@ class Website():
                 continue
             if result is None:
                 continue
+            lp = parse.urlparse(str(result.group(0)).lower())
+            if lp == parse.urlparse(self.domain):
+                continue
             else:
-                lp = parse.urlparse(result.group(0))
                 links.append(lp.netloc)
-        print("eeee{}eawewe".format(links))
-        return
+        return links
 
 
-w = Website(3, "com")
+w = Website(3, "com", domain="http://www.nfl.com")
