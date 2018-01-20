@@ -10,7 +10,7 @@ class Website():
     """Menages getting a domain, checks if it's working and gets it's HTML."""
 
     def __init__(self, length, firstLevelDomain="com", guesses=50, domain=None):
-        self.header_dict = {
+        self.headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
             "Accept-Encoding": "gzip, deflate",
             "Accept-Language": "en-US,en;q=0.9,pl-PL;q=0.8,pl;q=0.7",
@@ -28,25 +28,32 @@ class Website():
         # Logic
         if self.domain is None:
             for x in range(self.guesses):
+
                 # Optional debug print ----
                 # print("Searching for a domain... Try NO. {}".format(x))
+
                 dom = self.rand_domain()
                 self.domain = dom
 
                 resp = self.request_domain()
                 if resp is False:
+
                     # Optional debug print ----
                     # print("Url {} has no website".format(self.domain))
                     continue
                 self.html = str(resp)
+
                 # Optional debug print ----
                 # print("Url {} has a website".format(self.domain))
                 break
         else:
             self.html = self.request_domain(self.domain)
+
         # optional debug print ----
         # print("Domain:\n{}\nHtml:\n{}\n".format(self.domain, self.html))
+
         self.extLinksList = self.extLinks(self.html)
+
         # Optional debug print that can raise a exception ----
         # try:
         #     print("HTML:\n{}\n\n\n{}".format(self.html, self.extLinksList))
@@ -65,7 +72,7 @@ class Website():
         if url is None:
             url = self.domain
         try:
-            rq = requests.request("GET", url, headers=self.header_dict, timeout=1)
+            rq = requests.request("GET", url, headers=self.headers, timeout=1)
         except Exception as e:
             print(e)
             return False
@@ -85,10 +92,12 @@ class Website():
                 continue
             lp = tldextract.extract(str(result.group(0)).lower())
             dp = tldextract.extract(self.domain)
+
             # Optional debug print ----
             # Print pased domain that we check agains and our parsed and original url.
-            print("lp:  {}\ndp:  {}     Our domain original link:  {}\n".format(
-                lp[1], dp[1], self.domain))
+            # print("lp:  {}\ndp:  {}     Our domain original link:  {}\n".format(
+            # lp[1], dp[1], self.domain))
+
             if lp[1] == dp[1]:
                 continue
             else:
@@ -111,3 +120,5 @@ class Website():
 w = Website(3, "com",)
 w.start()
 print(w.getExternalLinks())
+print(w.getDomain())
+print(w.getHtml())
