@@ -3,7 +3,7 @@ import string
 import requests
 import bs4
 import re
-from urllib import parse
+import tldextract
 
 
 class Website():
@@ -73,12 +73,16 @@ class Website():
                 continue
             if result is None:
                 continue
-            lp = parse.urlparse(str(result.group(0)).lower())
-            if lp == parse.urlparse(self.domain):
+            lp = tldextract.extract(str(result.group(0)).lower())
+            dp = tldextract.extract(self.domain)
+            # Print
+            print("lp:  {}\ndp:  {}     Our domain original link:  {}\n".format(
+                lp[1], dp[1], self.domain))
+            if lp[1] == dp[1]:
                 continue
             else:
-                links.append(lp.netloc)
+                links.append("http://www.{}.com".format(lp[1]))
         return links
 
 
-w = Website(3, "com", domain="http://www.nfl.com")
+w = Website(3, "com", domain=None)
