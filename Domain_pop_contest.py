@@ -1,6 +1,7 @@
+# Plan of how to structure this program.
 # Scoreboard
 # Website
-# Random domain name gen
+# Random domain name generator
 import random
 import string
 import requests
@@ -15,7 +16,7 @@ class Website():
         self.domain = None
         self.html = None
 
-# TODO: make that it has limited amount of tries and if exceeded raise exception
+# TODO: make that it has limited amount of tries and if exceeded raise exception.
         while True:
             self.rand_dom()
             resp = self.request_domain()
