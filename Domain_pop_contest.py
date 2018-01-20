@@ -61,7 +61,7 @@ class Website():
         if url is None:
             url = self.domain
         try:
-            rq = requests.request("GET", url, headers=self.header_dict)
+            rq = requests.request("GET", url, headers=self.header_dict, timeout=5)
         except Exception as e:
             print(e)
             return False
