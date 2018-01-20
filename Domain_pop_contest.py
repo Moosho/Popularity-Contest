@@ -8,7 +8,7 @@ import requests
 
 
 class Website():
-    """Menages getting a domain, checking if it's working and gets it's HTML."""
+    """Menages getting a domain, checks if it's working and gets it's HTML."""
 
     def __init__(self, length, firstLevelDomain):
         self.length = length
