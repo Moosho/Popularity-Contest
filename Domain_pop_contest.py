@@ -108,7 +108,7 @@ class Website():
         return self.extLinksList
 
     def getDomain(self):
-        return self.dodomain
+        return self.domain
 
     def getHtml(self):
         return self.html
