@@ -24,24 +24,31 @@ class Website():
         self.html = ""
         self.extLinksList = []
 
+    def start(self):
         # Logic
         if self.domain is None:
             for x in range(self.tries):
+                # Optional debug print ----
+                print("Searching for a domain... Try NO. {}".format(x))
                 dom = self.rand_domain()
                 self.domain = dom
 
                 resp = self.request_domain()
                 self.html = str(resp)
                 if resp is False:
+                    # Optional debug print ----
+                    print("Url {} has no website".format(self.domain))
                     continue
         else:
             self.html = self.request_domain(self.domain)
-        # print("Domain:\n{}\nHtml:\n{}\n".format(self.domain, self.html))
-        html_raw = self.html
-        ext = self.extLinks(html_raw)
-        print("HTML:\n{}\n\n\nqqqqqqqqqqqqqq {}".format(self.html, ext))
-        print(ext)
-        print(self.domain)
+            # optional debug print ----
+            # print("Domain:\n{}\nHtml:\n{}\n".format(self.domain, self.html))
+            html_raw = self.html
+            ext = self.extLinks(html_raw)
+            # Optional debug print ----
+            print("HTML:\n{}\n\n\n{}".format(self.html, ext))
+            print(self.domain)
+        pass
 
     def rand_domain(self):
         name = ""
@@ -57,7 +64,6 @@ class Website():
             rq = requests.request("GET", url, headers=self.header_dict)
         except Exception as e:
             print(e)
-            print("aaaaaaaaaaaaaaaaaa")
             return False
         return rq.text
 
@@ -75,7 +81,8 @@ class Website():
                 continue
             lp = tldextract.extract(str(result.group(0)).lower())
             dp = tldextract.extract(self.domain)
-            # Print
+            # Optional debug print ----
+            # Print pased domain that we check agains and our parsed and original url.
             print("lp:  {}\ndp:  {}     Our domain original link:  {}\n".format(
                 lp[1], dp[1], self.domain))
             if lp[1] == dp[1]:
@@ -85,4 +92,6 @@ class Website():
         return links
 
 
-w = Website(3, "com", domain=None)
+# w = Website(3, domain="http://www.dzq.com")
+w = Website(3, "com",)
+w.start()
