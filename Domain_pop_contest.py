@@ -6,6 +6,7 @@ import random
 import string
 import requests
 import bs4
+import re
 
 
 class Website():
@@ -28,7 +29,7 @@ class Website():
 # TODO: make that it has limited amount of tries and if exceeded raise exception.
 # TODO: if website gets only url var, skip all the random and checking stuff
         while True:
-            self.rand_dom()
+            self.rand_domain()
             resp = self.request_domain()
             if resp is False:
                 continue
@@ -37,7 +38,7 @@ class Website():
             break
         print("Domain: {}\nHtml: {}".format(self.domain, self.html))
 
-    def rand_dom(self):
+    def rand_domain(self):
         name = ""
         for n in range(int(self.length)):
             randLetter = random.choice(string.ascii_lowercase)
@@ -54,7 +55,18 @@ class Website():
 
     def extLinks(html):
         bs = bs4.BeautifulSoup(html, "html.parser")
-        pass
+        links = []
+        for a_tag in bs.find_all("a"):
+            href = a_tag.get("href")
+            try:
+                result = re.match(r'htt(p|ps)://.+\.com/?', str(href))
+            except Exception as e:
+                print("{} piperol".format(e))
+            if result is None:
+                continue
+            else:
+                links.append(result)
+        return links
 
 
 w = Website(3, "com")
