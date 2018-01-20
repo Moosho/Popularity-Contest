@@ -79,13 +79,15 @@ class website():
         return rq.text
 
     def extLinks(self, html):
-        bs = bs4.BeautifulSoup(html, "html.parser")
         links = []
+        try:
+            bs = bs4.BeautifulSoup(html, "html.parser")
+        except Exception as e:
+            print(e)
         for a_tag in bs.find_all("a"):
             href = a_tag.get("href")
             try:
                 result = re.match(r'htt(p|ps)://.+\.com/?', str(href))
-                print(result)
             except Exception as e:
                 print(e)
                 continue
