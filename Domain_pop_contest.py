@@ -90,16 +90,18 @@ class website():
                 continue
             if result is None:
                 continue
+            print("dddddddddddddddddddddddddddddddddddddddd")
             lp = tldextract.extract(str(result.group(0)).lower())
             dp = tldextract.extract(self.domain)
 
             # Optional debug print ----
             # Print pased domain that we check agains and our parsed and original url.
-            # print("lp:  {}\ndp:  {}     Our domain original link:  {}\n".format(
-            #     lp[1], dp[1], self.domain))
-            # print(
-            #     "Second check if the domain is already in our list. \nLink ---> {}\nList ---> {}\n".format(lp[1], links))
+            print("lp:  {}\ndp:  {}     Our domain original link:  {}\n".format(
+                lp[1], dp[1], self.domain))
+            print(
+                "Second check if the domain is already in our list. \nLink ---> {}\nList ---> {}\n".format(lp[1], links))
             # ----
+
             if lp[1] == dp[1]:
                 continue
             elif lp[1] in links:
@@ -121,9 +123,20 @@ class website():
 
 
 print("Working...")
-w = Website(3, domain="http://www.tdeecalculator.net")
-# w = Website(5, "com",)
+w = website(length=3)
+# w = website(5, "com",)
 w.start()
 print(w.getExternalLinks())
 print(w.getDomain())
 # print(w.getHtml())
+
+# w = website()
+# w.start()
+# ext_links_from_w = w.getExternalLinks()
+# print(ext_links_from_w)
+# links_from_websites_from_the_frist_website = []
+# for link in ext_links_from_w:
+#     x = website(domain=link)
+#     x.start()
+#     links_from_websites_from_the_frist_website += w.getExternalLinks()
+# print(links_from_websites_from_the_frist_website)
