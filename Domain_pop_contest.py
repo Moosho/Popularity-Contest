@@ -120,11 +120,12 @@ class Website():
         return self.html
 
 
-# w = Website(3, domain="http://www.dzq.com")
-
-
+print("Working...")
+# w = Website(3, domain="http://www.apl.com")
+# w = Website(3, domain="http://www.uyt.com")
 w = Website(3, "com",)
 w.start()
+print("Obj Website has been initialized.")
 print(w.getExternalLinks())
 print(w.getDomain())
-print(w.getHtml())
+# print(w.getHtml())
