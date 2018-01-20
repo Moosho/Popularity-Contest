@@ -53,7 +53,7 @@ class Website():
         return rq.text
 
     def extLinks(html):
-
+        bs = bs4.BeautifulSoup(html, "html.parser")
         pass
 
 
