@@ -84,6 +84,7 @@ class website():
             bs = bs4.BeautifulSoup(html, "html.parser")
         except Exception as e:
             print(e)
+            return links
         for a_tag in bs.find_all("a"):
             href = a_tag.get("href")
             try:
