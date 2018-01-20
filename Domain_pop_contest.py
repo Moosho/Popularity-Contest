@@ -29,32 +29,30 @@ class Website():
         if self.domain is None:
             for x in range(self.guesses):
                 # Optional debug print ----
-                print("Searching for a domain... Try NO. {}".format(x))
+                # print("Searching for a domain... Try NO. {}".format(x))
                 dom = self.rand_domain()
                 self.domain = dom
 
                 resp = self.request_domain()
                 if resp is False:
                     # Optional debug print ----
-                    print("Url {} has no website".format(self.domain))
+                    # print("Url {} has no website".format(self.domain))
                     continue
                 self.html = str(resp)
                 # Optional debug print ----
-                print("Url {} has a website".format(self.domain))
+                # print("Url {} has a website".format(self.domain))
                 break
         else:
             self.html = self.request_domain(self.domain)
         # optional debug print ----
         # print("Domain:\n{}\nHtml:\n{}\n".format(self.domain, self.html))
-        html_raw = self.html
-        ext = self.extLinks(html_raw)
+        self.extLinksList = self.extLinks(self.html)
         # Optional debug print that can raise a exception ----
-        try:
-            print("HTML:\n{}\n\n\n{}".format(self.html, ext))
-        except Exception as e:
-            print(e)
+        # try:
+        #     print("HTML:\n{}\n\n\n{}".format(self.html, self.extLinksList))
+        # except Exception as e:
+        #     print(e)
         # ----
-        print(self.domain)
 
     def rand_domain(self):
         name = ""
@@ -97,7 +95,19 @@ class Website():
                 links.append("http://www.{}.com".format(lp[1]))
         return links
 
+    def getExternalLinks(self):
+        return self.extLinksList
+
+    def getDomain(self):
+        return self.dodomain
+
+    def getHtml(self):
+        return self.html
+
 
 # w = Website(3, domain="http://www.dzq.com")
+
+
 w = Website(3, "com",)
 w.start()
+print(w.getExternalLinks())
