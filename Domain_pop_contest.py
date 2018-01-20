@@ -18,6 +18,7 @@ class Website():
         self.extLinksList = None
 
 # TODO: make that it has limited amount of tries and if exceeded raise exception.
+# TODO: if website gets only url var, skip all the random and checking stuff
         while True:
             self.rand_dom()
             resp = self.request_domain()
