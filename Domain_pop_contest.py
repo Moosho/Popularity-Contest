@@ -6,10 +6,10 @@ import re
 import tldextract
 
 
-class Website():
+class website():
     """Menages getting a domain, checks if it's working and gets it's HTML."""
 
-    def __init__(self, length, firstLevelDomain="com", guesses=50, domain=None):
+    def __init__(self, length=3, firstLevelDomain="com", guesses=50, domain=None):
         self.headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
             "Accept-Encoding": "gzip, deflate",
