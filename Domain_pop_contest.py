@@ -123,7 +123,7 @@ class Website():
 print("Working...")
 # w = Website(3, domain="http://www.apl.com")
 # w = Website(3, domain="http://www.uyt.com")
-w = Website(3, "com",)
+w = Website(5, "com",)
 w.start()
 print("Obj Website has been initialized.")
 print(w.getExternalLinks())
