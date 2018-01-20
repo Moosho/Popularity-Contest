@@ -3,6 +3,7 @@ import string
 import requests
 import bs4
 import re
+from urllib import parse
 
 
 class Website():
@@ -35,6 +36,7 @@ class Website():
                 html_raw = self.html
                 ext = self.extLinks(html_raw)
                 print(ext)
+                print("qqqqqqqqqqqqqq")
                 break
 
     def rand_domain(self):
@@ -51,6 +53,7 @@ class Website():
             rq = requests.request("GET", url, headers=self.header_dict)
         except Exception as e:
             print(e)
+            print("aaaaaaaaaaaaaaaaaa")
             return False
         return rq.text
 
@@ -63,11 +66,14 @@ class Website():
                 result = re.match(r'htt(p|ps)://.+\.com/?', str(href))
             except Exception as e:
                 print(e)
+                continue
             if result is None:
                 continue
             else:
-                links.append(result)
-        return links
+                lp = parse.urlparse(result.group(0))
+                links.append(lp.netloc)
+        print("eeee{}eawewe".format(links))
+        return
 
 
 w = Website(3, "com")
