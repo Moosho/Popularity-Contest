@@ -123,10 +123,14 @@ class website():
         return self.html
 
 
+# Stript for testing
 print("Working...")
-w = website()
-# w = Website(5, "com",)
+w = website(domain="http://www.apl.com")
 w.start()
-print(w.getExternalLinks())
-print(w.getDomain())
-# print(w.getHtml())
+ex = w.getExternalLinks()
+print("This is {} domain.\nAnd these are it's external links: {}".format(w.getDomain(), ex))
+for x in ex:
+    w = website(domain=x)
+    w.start()
+    ex = w.getExternalLinks()
+    print("This is {} domain.\nAnd these are it's external links: {}".format(w.getDomain(), ex))
