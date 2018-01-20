@@ -1,7 +1,3 @@
-# Plan of how to structure this program.
-# Scoreboard
-# Website
-# Random domain name generator
 import random
 import string
 import requests
@@ -22,32 +18,25 @@ class Website():
         }
         self.length = length
         self.firstLevelDomain = str(firstLevelDomain)
+        self.url = url
         self.domain = None
         self.html = None
         self.extLinksList = None
 
-# TODO: make that it has limited amount of tries and if exceeded raise exception.
-# TODO: if website gets only url var, skip all the random and checking stuff
-        while True:
-            self.rand_domain()
-            resp = self.request_domain()
-            if resp is False:
-                continue
-            self.html = resp
-            self.extLinksList = self.extLinks()
-            break
-        print("Domain: {}\nHtml: {}".format(self.domain, self.html))
+        # Logic
 
     def rand_domain(self):
         name = ""
         for n in range(int(self.length)):
             randLetter = random.choice(string.ascii_lowercase)
             name = "{}{}".format(name, randLetter)
-        self.domain = "http://{}.{}".format(name, self.firstLevelDomain)
+        return "http://{}.{}".format(name, self.firstLevelDomain)
 
-    def request_domain(self):
+    def request_domain(self, url=None):
+        if url is None:
+            url = self.domain
         try:
-            rq = requests.request("GET", str(self.domain), headers=self.header_dict)
+            rq = requests.request("GET", url, headers=self.header_dict)
         except Exception as e:
             print(e)
             return False
@@ -66,7 +55,6 @@ class Website():
                 continue
             else:
                 links.append(result)
-        return links
 
 
 w = Website(3, "com")
