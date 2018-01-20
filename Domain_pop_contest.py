@@ -9,7 +9,7 @@ import tldextract
 class Website():
     """Menages getting a domain, checks if it's working and gets it's HTML."""
 
-    def __init__(self, length, firstLevelDomain="com", tries=50, domain=None):
+    def __init__(self, length, firstLevelDomain="com", guesses=50, domain=None):
         self.header_dict = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
             "Accept-Encoding": "gzip, deflate",
@@ -19,7 +19,7 @@ class Website():
         }
         self.length = length
         self.firstLevelDomain = firstLevelDomain
-        self.tries = tries
+        self.guesses = guesses
         self.domain = domain
         self.html = ""
         self.extLinksList = []
@@ -27,7 +27,7 @@ class Website():
     def start(self):
         # Logic
         if self.domain is None:
-            for x in range(self.tries):
+            for x in range(self.guesses):
                 # Optional debug print ----
                 print("Searching for a domain... Try NO. {}".format(x))
                 dom = self.rand_domain()
