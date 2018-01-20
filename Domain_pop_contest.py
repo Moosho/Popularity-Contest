@@ -25,6 +25,7 @@ class Website():
             if resp is False:
                 continue
             self.html = resp
+            self.extLinksList = self.extLinks()
             break
         print("Domain: {}\nHtml: {}".format(self.domain, self.html))
 
@@ -43,12 +44,8 @@ class Website():
             return False
         return rq.text
 
-
-class Links():
-    """Extracts all external links from a given HTML, aside of self refferencing ones."""
-
-    def __init__(self, raw_html):
-        self.raw_html = raw_html
+    def extLinks(html):
+        pass
 
 
 w = Website(3, "com")
