@@ -85,6 +85,7 @@ class website():
             href = a_tag.get("href")
             try:
                 result = re.match(r'htt(p|ps)://.+\.com/?', str(href))
+                print(result)
             except Exception as e:
                 print(e)
                 continue
@@ -121,7 +122,7 @@ class website():
 
 
 print("Working...")
-w = Website(3, domain="http://www.tdeecalculator.net")
+w = website()
 # w = Website(5, "com",)
 w.start()
 print(w.getExternalLinks())
