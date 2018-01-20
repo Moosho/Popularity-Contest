@@ -34,21 +34,27 @@ class Website():
                 self.domain = dom
 
                 resp = self.request_domain()
-                self.html = str(resp)
                 if resp is False:
                     # Optional debug print ----
                     print("Url {} has no website".format(self.domain))
                     continue
+                self.html = str(resp)
+                # Optional debug print ----
+                print("Url {} has a website".format(self.domain))
+                break
         else:
             self.html = self.request_domain(self.domain)
-            # optional debug print ----
-            # print("Domain:\n{}\nHtml:\n{}\n".format(self.domain, self.html))
-            html_raw = self.html
-            ext = self.extLinks(html_raw)
-            # Optional debug print ----
+        # optional debug print ----
+        # print("Domain:\n{}\nHtml:\n{}\n".format(self.domain, self.html))
+        html_raw = self.html
+        ext = self.extLinks(html_raw)
+        # Optional debug print that can raise a exception ----
+        try:
             print("HTML:\n{}\n\n\n{}".format(self.html, ext))
-            print(self.domain)
-        pass
+        except Exception as e:
+            print(e)
+        # ----
+        print(self.domain)
 
     def rand_domain(self):
         name = ""
@@ -61,7 +67,7 @@ class Website():
         if url is None:
             url = self.domain
         try:
-            rq = requests.request("GET", url, headers=self.header_dict, timeout=5)
+            rq = requests.request("GET", url, headers=self.header_dict, timeout=1)
         except Exception as e:
             print(e)
             return False
