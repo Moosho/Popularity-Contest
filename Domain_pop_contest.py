@@ -10,11 +10,12 @@ import requests
 class Website():
     """Menages getting a domain, checks if it's working and gets it's HTML."""
 
-    def __init__(self, length, firstLevelDomain):
+    def __init__(self, length, firstLevelDomain="com", url=False):
         self.length = length
         self.firstLevelDomain = str(firstLevelDomain)
         self.domain = None
         self.html = None
+        self.extLinksList = None
 
 # TODO: make that it has limited amount of tries and if exceeded raise exception.
         while True:
