@@ -96,12 +96,18 @@ class Website():
             # Optional debug print ----
             # Print pased domain that we check agains and our parsed and original url.
             # print("lp:  {}\ndp:  {}     Our domain original link:  {}\n".format(
-            # lp[1], dp[1], self.domain))
-
+            #     lp[1], dp[1], self.domain))
+            # print(
+            #     "Second check if the domain is already in our list. \nLink ---> {}\nList ---> {}\n".format(lp[1], links))
+            # ----
             if lp[1] == dp[1]:
                 continue
+            elif lp[1] in links:
+                continue
             else:
-                links.append("http://www.{}.com".format(lp[1]))
+                links.append(lp[1])
+        for x in range(len(links)):
+            links[x] = "http://www.{}.com".format(links[x])
         return links
 
     def getExternalLinks(self):
