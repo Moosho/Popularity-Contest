@@ -19,11 +19,23 @@ class Website():
         self.length = length
         self.firstLevelDomain = str(firstLevelDomain)
         self.url = url
-        self.domain = None
-        self.html = None
-        self.extLinksList = None
+        self.domain = ""
+        self.html = ""
+        self.extLinksList = []
 
         # Logic
+        for x in range(50):
+            dom = self.rand_domain()
+            self.domain = dom
+            resp = self.request_domain()
+            if resp is not False:
+                self.domain = dom
+                self.html = str(resp)
+                # print("Domain:\n{}\nHtml:\n{}\n".format(self.domain, self.html))
+                html_raw = self.html
+                ext = self.extLinks(html_raw)
+                print(ext)
+                break
 
     def rand_domain(self):
         name = ""
@@ -42,7 +54,7 @@ class Website():
             return False
         return rq.text
 
-    def extLinks(html):
+    def extLinks(self, html):
         bs = bs4.BeautifulSoup(html, "html.parser")
         links = []
         for a_tag in bs.find_all("a"):
@@ -50,11 +62,12 @@ class Website():
             try:
                 result = re.match(r'htt(p|ps)://.+\.com/?', str(href))
             except Exception as e:
-                print("{} piperol".format(e))
+                print(e)
             if result is None:
                 continue
             else:
                 links.append(result)
+        return links
 
 
 w = Website(3, "com")
