@@ -9,14 +9,16 @@ import tldextract
 class website():
     """Menages getting a domain, checks if it's working and gets it's HTML."""
 
+    headers = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "en-US,en;q=0.9,pl-PL;q=0.8,pl;q=0.7",
+        "Referer": "https://www.google.pl/",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"
+    }
+    rePat = re.compile(r'htt(p|ps)://.+\.com/?')
+
     def __init__(self, length=3, firstLevelDomain="com", guesses=50, domain=None):
-        self.headers = {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-            "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "en-US,en;q=0.9,pl-PL;q=0.8,pl;q=0.7",
-            "Referer": "https://www.google.pl/",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"
-        }
         self.length = length
         self.firstLevelDomain = firstLevelDomain
         self.guesses = guesses
@@ -88,7 +90,7 @@ class website():
         for a_tag in bs.find_all("a"):
             href = a_tag.get("href")
             try:
-                result = re.match(r'htt(p|ps)://.+\.com/?', str(href))
+                result = re.match(self.rePat, str(href))
             except Exception as e:
                 print(e)
                 continue
