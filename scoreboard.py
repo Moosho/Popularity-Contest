@@ -11,9 +11,19 @@ class scoreboard():
             self.urls += x
         pass
 
-    def score(self,):
+    def show(self):
+        return self.board(self.score())
+
+    def score(self):
         c = Counter()
         for x in self.urls:
             c[x] += 1
         self.scored = c.most_common()
         return self.scored
+
+    def board(self, scoredDomains):
+        for domain in range(len(scoredDomains)):
+            print("{} Hit(s) on {}".format(
+                scoredDomains[domain][1], scoredDomains[domain][0]))
+            pass
+        pass
