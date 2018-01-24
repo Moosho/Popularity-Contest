@@ -1,28 +1,53 @@
 from website import website
 from scoreboard import scoreboard
+from queue import Queue
+import threading
 
-list_of_them_all = []
+exlGlobal = []
+q = Queue()
+lock = threading.Lock()
+threads = 5
+
+
+def gel(web):
+    global exlGlobal
+    w = website(domain=web)
+    w.start()
+    with lock:
+        print(w.getExternalLinks)
+        exlGlobal += w.getExternalLinks()
+
+
+def threader():
+    website = q.get()
+    gel(website)
+    q.task_done()
+    pass
+
+
 print("Working...")
+
 w = website(2, guesses=1000)
 w.start()
-ex = w.getExternalLinks()
-list_of_them_all += ex
-# print("Layer 1. This is {} domain.\nAnd these are it's external links: {}".format(w.getDomain(), ex))
-for x in ex:
-    w = website(domain=x)
-    w.start()
-    ex = w.getExternalLinks()
-    list_of_them_all += ex
-    # print("Layer 2. This is {} domain.\nAnd these are it's external links: {}".format(w.getDomain(), ex))
-    for x in ex:
-        w = website(domain=x)
-        w.start()
-        ex = w.getExternalLinks()
-        list_of_them_all += ex
-        # print("Layer 3. This is {} domain.\nAnd these are it's external links: {}".format(w.getDomain(), ex))
-# print("\nAll external links found:\n{}".format(list_of_them_all))
+exlGlobal += w.getExternalLinks()
 
-sb = scoreboard(list_of_them_all)
-# print(sb.score())
-print("\n")
-sb.show()
+if exlGlobal == []:
+    print("No external links have been found on the root domain {}".format(w.getDomain()))
+else:
+
+    print("{}\nLinks form first random domain: {}".format(w.getDomain(), exlGlobal))
+
+    for w in exlGlobal:
+        print(w)
+        q.put(w)
+
+    for x in range(threads):
+        thread = threading.Thread(target=threader)
+        thread.daemon = True
+        thread.start()
+
+    q.join
+    sb = scoreboard(exlGlobal)
+    # print(sb.score())
+    print("\n")
+    sb.show()
